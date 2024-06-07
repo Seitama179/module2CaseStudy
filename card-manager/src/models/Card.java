@@ -1,6 +1,6 @@
 package models;
 
-public class Card {
+public abstract class Card {
     private String id;
     private String cardName;
     private int cost;

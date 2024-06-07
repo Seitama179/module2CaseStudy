@@ -5,6 +5,7 @@ import repository.CardRepository;
 import java.util.List;
 
 public class CardService implements ICardService{
+    private CardRepository cardRepository = new CardRepository();
 
     @Override
     public boolean add(Card card) {
@@ -13,6 +14,6 @@ public class CardService implements ICardService{
 
     @Override
     public List<Card> getAll() {
-        return CardRepository.getAll();
+        return cardRepository.getAll();
     }
 }
