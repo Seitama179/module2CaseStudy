@@ -1,15 +1,17 @@
 package models;
 
-public abstract class Card {
+import java.io.Serializable;
+
+public abstract class Card implements Serializable {
     private String id;
     private String cardName;
     private int cost;
     private String region;
-    private long price;
+    private double price;
     private byte quantity; // 1-3
     private String cardText;
     private String keyword;
-    public Card(String id, String cardName, int cost, String region,long price, byte quantity, String cardText, String keyword) {
+    public Card(String id, String cardName, int cost, String region, double price, byte quantity, String cardText, String keyword) {
         this.id = id;
         this.cardName = cardName;
         this.cost = cost;
@@ -52,11 +54,11 @@ public abstract class Card {
         this.region = region;
     }
 
-    public long getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

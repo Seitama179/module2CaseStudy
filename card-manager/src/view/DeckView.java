@@ -1,16 +1,10 @@
 package view;
 
-
 import java.util.Scanner;
 
 public class DeckView {
-    private Scanner scanner;
 
-    public DeckView(Scanner scanner) {
-        this.scanner = scanner;
-    }
-
-    public int displayDeckMenu(){
+    public int displayDeckMenu(Scanner scanner){
         System.out.println("-------Deck manager menu------");
         System.out.println("1. Create a Deck");
         System.out.println("2. Remove a Deck");
@@ -18,7 +12,7 @@ public class DeckView {
         System.out.println("4. Display a Deck");
         System.out.println("5. Edit a Deck");
         System.out.println("0. Back");
-        Scanner scanner = new Scanner(System.in);
+
         int choice;
         while(true){
             try {
@@ -33,5 +27,13 @@ public class DeckView {
             }
         }
         return choice;
+    }
+
+    public int showEditDeckMenu(Scanner scanner) {
+        System.out.println("Edit Deck Menu");
+        System.out.println("1. Add card to deck");
+        System.out.println("2. Remove card from deck");
+        System.out.println("3. Rename deck");
+        return scanner.nextInt();
     }
 }

@@ -1,103 +1,130 @@
 package controller;
-import java.util.List;
+
 import java.util.Scanner;
 
-import models.Card;
 import service.CardService;
 import service.DeckService;
 import view.CardView;
 import view.DeckView;
 import view.Menu;
+import repository.CardRepository;
+import repository.DeckRepository;
 
 public class MainController {
-    public static void main(String[] args) {
+
+    private CardView cardView;
+    private DeckView deckView;
+    private CardService cardService ;
+    private DeckService deckService;
+    private Menu menu;
+
+    public MainController() {
+        CardRepository cardRepository = new CardRepository();
+        DeckRepository deckRepository = new DeckRepository(cardRepository);
+        cardService = new CardService(cardRepository);
+        deckService = new DeckService(deckRepository, cardRepository);
+        cardView = new CardView();
+        deckView = new DeckView();
+        menu = new Menu();
+    }
+
+    public void start() {
         Scanner scanner = new Scanner(System.in);
-        Menu menu = new Menu(scanner);
-        CardView cardView = new CardView(scanner);
-        DeckView deckView = new DeckView(scanner);
-        CardService cardService = new CardService();
-        DeckService deckService = new DeckService();
-
-
-        List<Card> cards;
-
         while (true) {
-            int mainOption = menu.displayMainMenu();
-            if(mainOption == 0) {
-                System.out.println("Program terminated.");
-                break;
-            }
+            int mainOption = menu.displayMainMenu(scanner);
             switch (mainOption) {
                 case 1:
-                    int  subOption1;
-                    do {
-                        subOption1 = cardView.displayCardMenu();
-                        cardManage(subOption1, cardService);
-                    } while (subOption1 != 0);
+                    handleCardMenu(scanner);
                     break;
                 case 2:
-                    int  subOption2;
-                    do {
-                        System.out.println("displayDeckMenu");
-                        subOption2 = deckView.displayDeckMenu();
-                        deckManage(subOption2, deckService);
-                    } while (subOption2 != 0);
+                    handleDeckMenu(scanner);
                     break;
+                case 0:
+                    System.out.println("Program terminated.");
+                    System.exit(0);
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
         }
-        scanner.close();
     }
+    private void handleCardMenu(Scanner scanner) {
+        while (true) {
+            int choice = cardView.displayCardMenu(scanner);
+            switch (choice) {
+                case 1:
+                    cardService.viewAllCards();
+                    break;
+                case 2:
+                    cardService.addCard(scanner);
 
-
-    private static void cardManage(int choice, CardService cardService) {
-        switch (choice) {
-            case 1:
-                System.out.println("list all cards");
-                break;
-            case 2:
-                System.out.println("add card");
-                break;
-            case 3:
-                System.out.println("remove card");
-                break;
-            case 4:
-                System.out.println("edit card");
-                break;
-            case 5:
-                System.out.println("search card");
-                break;
-            case 0:
-                System.out.println("Returning to main menu...");
-                break;
-            default:
-                System.out.println("Invalid action. Please try again.");
+                    break;
+                case 3:
+                    String cardId = cardView.getCardId();
+                    if (cardService.removeCard(cardId)) {
+                        System.out.println("Card removed successfully.");
+                    } else {
+                        System.out.println("Card not found.");
+                    }
+                    break;
+                case 4:
+                    cardService.editCard(scanner);
+                    break;
+                case 5:
+                    cardService.searchCard(scanner);
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Invalid choice.");
+            }
         }
     }
 
-    private static void deckManage(int choice, DeckService deckService) {
+    private void handleDeckMenu(Scanner scanner) {
+        while (true) {
+            int choice = deckView.displayDeckMenu(scanner);
+            switch (choice) {
+                case 1:
+                    deckService.createDeck(scanner);
+                    break;
+                case 2:
+                    deckService.removeDeck(scanner);
+                    break;
+                case 3:
+                    deckService.listDecks();
+                    break;
+                case 4:
+                    deckService.displayDeck(scanner);
+                    break;
+                case 5:
+                    handleEditDeckMenu(scanner);
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        }
+    }
+
+    private void handleEditDeckMenu(Scanner scanner) {
+        int choice = deckView.showEditDeckMenu(scanner);
         switch (choice) {
             case 1:
-                System.out.println("add deck");
+                deckService.addCardToDeck(scanner);
                 break;
             case 2:
-                System.out.println("remove deck");
+                deckService.removeCardFromDeck(scanner);
                 break;
             case 3:
-                System.out.println("list all decks");
-                break;
-            case 4:
-                System.out.println("view a deck");
-                break;
-            case 5:
-                System.out.println("edit a deck");
+                deckService.renameDeck(scanner);
                 break;
             case 0:
-                System.out.println("Returning to main menu...");
-                break;
+                return;
             default:
-                System.out.println("Invalid action. Please try again.");
+                System.out.println("Invalid choice.");
         }
     }
 }
+
+
