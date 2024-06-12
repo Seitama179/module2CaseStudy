@@ -34,6 +34,7 @@ public class DeckView {
         System.out.println("1. Add card to deck");
         System.out.println("2. Remove card from deck");
         System.out.println("3. Rename deck");
+        System.out.println("0. Back");
         return scanner.nextInt();
     }
 }

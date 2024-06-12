@@ -1,9 +1,8 @@
 package service;
 
-import models.Card;
+import models.*;
 import repository.DeckRepository;
 import repository.CardRepository;
-
 import java.util.List;
 import java.util.Scanner;
 
@@ -36,25 +35,22 @@ public class DeckService implements IDeckService {
     @Override
     public void listDecks() {
         System.out.println("List of decks:");
-        List<String> decks = deckRepository.listDecks();
-        for (String deck : decks) {
+        List<Deck> decks = deckRepository.listDecks();
+        for (Deck deck : decks) {
             System.out.println(deck);
         }
     }
 
     @Override
-    public void displayDeck(Scanner scanner) {
-        try {
-            System.out.println("Enter deck name to display:");
-            String deckName = scanner.next();
-            List<Card> cards = deckRepository.displayDeck(deckName);
-            for (Card card : cards) {
-                System.out.println(card);
-            }
-        } catch (Exception e) {
-            System.out.println("Deck not found!");
+    public void displayDeck(String deckName) {
+        Deck deck = deckRepository.getDeck(deckName);
+        if (deck != null) {
+            System.out.println(deck);
+        } else {
+            System.out.println("Deck not found.");
         }
     }
+
     @Override
     public void addCardToDeck(Scanner scanner) {
         System.out.println("Enter deck name:");
@@ -68,20 +64,15 @@ public class DeckService implements IDeckService {
             return;
         }
 
-        List<Card> cardsInDeck = deckRepository.displayDeck(deckName);
-        int count = 0;
-        for (Card card : cardsInDeck) {
-            if (card.getId().equals(cardId)) {
-                count += card.getQuantity();
-            }
-        }
-
-        if (count + cardToAdd.getQuantity() > 3) {
-            System.out.println("Cannot add card. Quantity exceeds limit of 3.");
+        System.out.println("Enter Card quantity to add:");
+        int cardQuantity = Integer.parseInt(scanner.nextLine());
+        if (cardQuantity <= 0 || cardQuantity >3) {
+            System.out.println("Card quantity must be between 1 and 3!");
             return;
         }
 
-        deckRepository.addCardToDeck(deckName, cardToAdd);
+        deckRepository.addCardToDeck(deckName, cardId, cardQuantity);
+        saveToFile();
         System.out.println("Card added to deck successfully!");
     }
 
@@ -104,38 +95,14 @@ public class DeckService implements IDeckService {
     }
 
     @Override
-    public void loadFromFile(String filename) {
-        deckRepository.loadFromFile(filename);
+    public void loadFromFile() {
+        deckRepository.loadFromFile();
     }
 
     @Override
-    public void saveToFile(String filename) {
-        deckRepository.saveToFile(filename);
+    public void saveToFile() {
+        deckRepository.saveToFile();
     }
 }
 
-//    public static void deckManage(int choice) {
-//        switch (choice) {
-//            case 1:
-//                System.out.println("add deck");
-//                break;
-//            case 2:
-//                System.out.println("remove deck");
-//                break;
-//            case 3:
-//                System.out.println("list all decks");
-//                break;
-//            case 4:
-//                System.out.println("view a deck");
-//                break;
-//            case 5:
-//                System.out.println("edit a deck");
-//                break;
-//            case 0:
-//                System.out.println("Returning to main menu...");
-//                break;
-//            default:
-//                System.out.println("Invalid action. Please try again.");
-//        }
-//    }
 

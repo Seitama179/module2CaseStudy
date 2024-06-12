@@ -117,20 +117,18 @@ public class CardRepository {
         String keyword = card.getKeyword().replace(",", "\\=");
         if (card instanceof UnitCard) {
             UnitCard unit = (UnitCard) card;
-            writer.write(String.format("UnitCard,%s,%s,%d,%s,%.2f,%d,%s,%s,%d,%d,%b,,,,%n",
-                    unit.getId(), cardName, unit.getCost(), region, unit.getPrice(),
-                    unit.getQuantity(), cardText, keyword, unit.getPower(),
+            writer.write(String.format("UnitCard,%s,%s,%d,%s,%.2f,%s,%s,%d,%d,%b,,,,%n",
+                    unit.getId(), cardName, unit.getCost(), region, unit.getPrice(), cardText, keyword, unit.getPower(),
                     unit.getHealth(), unit.isChampion()));
         } else if (card instanceof SpellCard) {
             SpellCard spell = (SpellCard) card;
-            writer.write(String.format("SpellCard,%s,%s,%d,%s,%.2f,%d,%s,%s,,,,%d,,,%n",
-                    spell.getId(), cardName, spell.getCost(), region, spell.getPrice(),
-                    spell.getQuantity(), cardText, keyword, spell.getSpeed()));
+            writer.write(String.format("SpellCard,%s,%s,%d,%s,%.2f,%s,%s,,,,%d,,,%n",
+                    spell.getId(), cardName, spell.getCost(), region, spell.getPrice(), cardText, keyword, spell.getSpeed()));
         } else if (card instanceof EquipmentCard) {
             EquipmentCard equipment = (EquipmentCard) card;
-            writer.write(String.format("EquipmentCard,%s,%s,%d,%s,%.2f,%d,%s,%s,,,,,%d,%d%n",
+            writer.write(String.format("EquipmentCard,%s,%s,%d,%s,%.2f,%s,%s,,,,,%d,%d%n",
                     equipment.getId(), cardName, equipment.getCost(), region,
-                    equipment.getPrice(), equipment.getQuantity(), cardText, keyword,
+                    equipment.getPrice(), cardText, keyword,
                     equipment.getBonusPower(), equipment.getBonusHealth()));
         }
     }

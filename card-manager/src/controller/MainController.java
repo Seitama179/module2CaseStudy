@@ -20,7 +20,7 @@ public class MainController {
 
     public MainController() {
         CardRepository cardRepository = new CardRepository();
-        DeckRepository deckRepository = new DeckRepository(cardRepository);
+        DeckRepository deckRepository = new DeckRepository();
         cardService = new CardService(cardRepository);
         deckService = new DeckService(deckRepository, cardRepository);
         cardView = new CardView();
@@ -94,7 +94,7 @@ public class MainController {
                     deckService.listDecks();
                     break;
                 case 4:
-                    deckService.displayDeck(scanner);
+                    deckService.displayDeck();
                     break;
                 case 5:
                     handleEditDeckMenu(scanner);

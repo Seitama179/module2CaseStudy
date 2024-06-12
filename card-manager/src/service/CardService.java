@@ -111,8 +111,6 @@ public class CardService implements ICardService {
         String region = scanner.nextLine();
         System.out.println("Enter new card price (current: " + existingCard.getPrice() + "): ");
         double price = scanner.nextDouble();
-        System.out.println("Enter new card quantity (current: " + existingCard.getQuantity() + "): ");
-        byte quantity = scanner.nextByte();
         scanner.nextLine();
         System.out.println("Enter new card text (current: " + existingCard.getCardText() + "): ");
         String cardText = scanner.nextLine();
@@ -149,7 +147,6 @@ public class CardService implements ICardService {
         existingCard.setCost(cost);
         existingCard.setRegion(region);
         existingCard.setPrice(price);
-        existingCard.setQuantity(quantity);
         existingCard.setCardText(cardText);
         existingCard.setKeyword(keyword);
 

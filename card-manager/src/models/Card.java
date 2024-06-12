@@ -8,19 +8,19 @@ public abstract class Card implements Serializable {
     private int cost;
     private String region;
     private double price;
-    private byte quantity; // 1-3
     private String cardText;
     private String keyword;
-    public Card(String id, String cardName, int cost, String region, double price, byte quantity, String cardText, String keyword) {
+    public Card(String id, String cardName, int cost, String region, double price, String cardText, String keyword) {
         this.id = id;
         this.cardName = cardName;
         this.cost = cost;
         this.region = region;
         this.price = price;
-        this.quantity = quantity;
+
         this.cardText = cardText;
         this.keyword = keyword;
     }
+
 
     public String getId() {
         return id;
@@ -60,14 +60,6 @@ public abstract class Card implements Serializable {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public byte getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(byte quantity) {
-        this.quantity = quantity;
     }
 
     public String getCardText() {

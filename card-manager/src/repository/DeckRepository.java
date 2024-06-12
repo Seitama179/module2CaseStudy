@@ -1,6 +1,6 @@
 package repository;
 
-import models.Card;
+import models.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,86 +8,105 @@ import java.util.List;
 import java.util.Map;
 
 public class DeckRepository {
-    private Map<String, List<Card>> decks;
-    private CardRepository cardRepository;
+    private static final String FILE_NAME = "DeckData.csv";
+    private Map<String, Deck> decks;
 
-    public DeckRepository(CardRepository cardRepository) {
-        this.decks = new HashMap<>();
-        this.cardRepository = cardRepository;
+    public DeckRepository() {
+        decks = new HashMap<>();
+        loadFromFile();
     }
 
 
 
     public void createDeck(String deckName) {
-        decks.put(deckName, new ArrayList<>());
-        saveToFile("DeckData.csv");
+        if (!decks.containsKey(deckName)) {
+            decks.put(deckName, new Deck(deckName));
+            saveToFile();
+        } else {
+            System.out.println("Deck with this name already exists.");
+        }
     }
 
     public void removeDeck(String deckName) {
-        decks.remove(deckName);
+        if (decks.remove(deckName) != null) {
+            saveToFile();
+        } else {
+            System.out.println("Deck not found.");
+        }
     }
 
-    public List<String> listDecks() {
-        return new ArrayList<>(decks.keySet());
+    public List<Deck> listDecks() {
+        return new ArrayList<>(decks.values());
     }
 
-    public List<Card> displayDeck(String deckName) {
+    public Deck getDeck(String deckName) {
         return decks.get(deckName);
     }
 
-    public void addCardToDeck(String deckName, Card card) {
-        if (decks.containsKey(deckName)) {
-            decks.get(deckName).add(card);
-        }
-    }
-
-    public void removeCardFromDeck(String deckName, String cardId) {
-        if (decks.containsKey(deckName)) {
-            decks.get(deckName).removeIf(card -> card.getId().equals(cardId));
-        }
-    }
-
     public void renameDeck(String oldName, String newName) {
-        if (decks.containsKey(oldName)) {
-            decks.put(newName, decks.remove(oldName));
+        if (decks.containsKey(oldName) && !decks.containsKey(newName)) {
+            Deck deck = decks.remove(oldName);
+            deck.setDeckName(newName);
+            decks.put(newName, deck);
+            saveToFile();
+        } else {
+            System.out.println("Rename failed. Either deck not found or new name already exists.");
         }
     }
 
-    public void loadFromFile(String filename) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+    public void updateDeck(Deck deck) {
+        decks.put(deck.getDeckName(), deck);
+        saveToFile();
+    }
+
+    public void addCardToDeck(String deckName, String cardId, int quantity) {
+        if (decks.containsKey(deckName)) {
+            decks.get(deckName).addCard(cardId, quantity);
+        }
+    }
+
+    public void removeCardFromDeck(String cardId) {
+        cards.removeIf(card -> card.getId().equals(cardId));
+        saveToFile();
+    }
+
+    public void loadFromFile() {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_NAME))) {
             String line;
-            decks.clear();
-            reader.readLine();
-            while ((line = reader.readLine()) != null) {
-                String[] fields = line.split(",");
-                String deckName = fields[0];
-                String cardId = fields[1];
-
-                Card card = cardRepository.searchCard(cardId);
-                if (!decks.containsKey(deckName)) {
-                    decks.put(deckName, new ArrayList<>());
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                String deckName = data[0];
+                Deck deck = new Deck(deckName);
+                for (int i = 1; i < data.length; i += 2) {
+                    String cardId = data[i];
+                    int quantity = Integer.parseInt(data[i + 1]);
+                    deck.addCard(cardId, quantity);
                 }
-                decks.get(deckName).add(card);
+                decks.put(deckName, deck);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void saveToFile(String filename) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            writer.write("deckName,cardID");
-            writer.newLine();
-
-            for (Map.Entry<String, List<Card>> entry : decks.entrySet()) {
-                String deckName = entry.getKey();
-                for (Card card : entry.getValue()) {
-                    writer.write(String.format("%s,%s%n", deckName, card.getId()));
-                }
+    public void saveToFile() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME))) {
+            for (Deck deck : decks.values()) {
+                bw.write(deckToCSVString(deck));
+                bw.newLine();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Saved to " + filename);
+        System.out.println("Saved to " + FILE_NAME);
+    }
+
+    public String deckToCSVString(Deck deck) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(deck.getDeckName());
+        for (Map.Entry<String, Integer> entry : deck.getCards().entrySet()) {
+            sb.append(",").append(entry.getKey()).append(",").append(entry.getValue());
+        }
+        return sb.toString();
     }
 }
