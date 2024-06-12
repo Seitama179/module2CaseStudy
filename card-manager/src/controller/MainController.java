@@ -94,7 +94,7 @@ public class MainController {
                     deckService.listDecks();
                     break;
                 case 4:
-                    deckService.displayDeck();
+                    deckService.displayDeck(scanner);
                     break;
                 case 5:
                     handleEditDeckMenu(scanner);

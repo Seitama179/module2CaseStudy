@@ -58,24 +58,24 @@ public class CardRepository {
                 String[] fields = line.split(",");
                 String cardName = fields[2].replace("\\=", ",");
                 String region = fields[4].replace("\\=", ",");
-                String cardText = fields[7].replace("\\=", ",");
-                String keyword = fields[8].replace("\\=", ",");
+                String cardText = fields[6].replace("\\=", ",");
+                String keyword = fields[7].replace("\\=", ",");
                 String type = fields[0];
                 Card card = null;
                 switch (type) {
                     case "UnitCard":
                         card = new UnitCard(fields[1], cardName, Integer.parseInt(fields[3]), region,
-                                Double.parseDouble(fields[5]), Byte.parseByte(fields[6]), cardText, keyword,
-                                Integer.parseInt(fields[9]), Integer.parseInt(fields[10]), Boolean.parseBoolean(fields[11]));
+                                Double.parseDouble(fields[5]), cardText, keyword,
+                                Integer.parseInt(fields[8]), Integer.parseInt(fields[9]), Boolean.parseBoolean(fields[10]));
                         break;
                     case "SpellCard":
                         card = new SpellCard(fields[1], cardName, Integer.parseInt(fields[3]), region,
-                                Double.parseDouble(fields[5]), Byte.parseByte(fields[6]), cardText, keyword,
+                                Double.parseDouble(fields[5]), cardText, keyword,
                                 Integer.parseInt(fields[12]));
                         break;
                     case "EquipmentCard":
                         card = new EquipmentCard(fields[1], cardName, Integer.parseInt(fields[3]), region,
-                                Double.parseDouble(fields[5]), Byte.parseByte(fields[6]), cardText, keyword,
+                                Double.parseDouble(fields[5]), cardText, keyword,
                                 Integer.parseInt(fields[13]), Integer.parseInt(fields[14]));
                         break;
                 }
@@ -98,7 +98,7 @@ public class CardRepository {
 
     public void saveToFile(String filename) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            writer.write("cardType,ID,cardName,cost,region,price,quantity,cardText,keyword,power,health,isChampion,speed,bonusPower,bonusHealth");
+            writer.write("cardType,ID,cardName,cost,region,price,cardText,keyword,power,health,isChampion,speed,bonusPower,bonusHealth");
             writer.newLine();
 
             for (Card card : cards) {

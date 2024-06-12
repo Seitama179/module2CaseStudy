@@ -5,8 +5,8 @@ public class UnitCard extends Card{
     private int health;
     private boolean isChampion;
 
-    public UnitCard(String id, String cardName, int cost, String region,double price, byte quantity, String cardText, String keyword, int power, int health, boolean isChampion) {
-        super(id,cardName,cost,region,price,quantity, cardText, keyword);
+    public UnitCard(String id, String cardName, int cost, String region,double price, String cardText, String keyword, int power, int health, boolean isChampion) {
+        super(id,cardName,cost,region,price, cardText, keyword);
         this.power = power;
         this.health = health;
         this.isChampion = isChampion;

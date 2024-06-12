@@ -65,9 +65,16 @@ public class DeckRepository {
         }
     }
 
-    public void removeCardFromDeck(String cardId) {
-        cards.removeIf(card -> card.getId().equals(cardId));
-        saveToFile();
+    public void removeCardFromDeck(String deckName, String cardId) {
+        Deck deck = decks.get(deckName);
+        if (deck != null) {
+            deck.removeCard(cardId);
+            saveToFile();
+            System.out.println("Card removed from deck successfully.");
+        } else {
+            System.out.println("Deck not found.");
+        }
+
     }
 
     public void loadFromFile() {
@@ -75,12 +82,15 @@ public class DeckRepository {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
+                if (data.length <= 2) continue;
                 String deckName = data[0];
                 Deck deck = new Deck(deckName);
-                for (int i = 1; i < data.length; i += 2) {
-                    String cardId = data[i];
-                    int quantity = Integer.parseInt(data[i + 1]);
-                    deck.addCard(cardId, quantity);
+                if (data.length > 2) {
+                    for (int i = 1; i < data.length; i += 2) {
+                        String cardId = data[i];
+                        int quantity = Integer.parseInt(data[i + 1]);
+                        deck.addCard(cardId, quantity);
+                    }
                 }
                 decks.put(deckName, deck);
             }

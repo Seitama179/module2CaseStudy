@@ -27,7 +27,7 @@ public class DeckService implements IDeckService {
     @Override
     public void removeDeck(Scanner scanner) {
         System.out.println("Enter deck name to remove:");
-        String deckName = scanner.next();
+        String deckName = scanner.nextLine();
         deckRepository.removeDeck(deckName);
         System.out.println("Deck removed!");
     }
@@ -42,7 +42,9 @@ public class DeckService implements IDeckService {
     }
 
     @Override
-    public void displayDeck(String deckName) {
+    public void displayDeck(Scanner scanner) {
+        System.out.println("Enter deck name:");
+        String deckName = scanner.nextLine();
         Deck deck = deckRepository.getDeck(deckName);
         if (deck != null) {
             System.out.println(deck);
@@ -95,8 +97,18 @@ public class DeckService implements IDeckService {
     }
 
     @Override
+    public void loadFromFile(String filename) {
+
+    }
+
+    @Override
     public void loadFromFile() {
         deckRepository.loadFromFile();
+    }
+
+    @Override
+    public void saveToFile(String filename) {
+
     }
 
     @Override

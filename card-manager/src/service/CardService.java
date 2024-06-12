@@ -62,19 +62,19 @@ public class CardService implements ICardService {
                 int health = scanner.nextInt();
                 System.out.println("Is Champion (true/false): ");
                 boolean isChampion = scanner.nextBoolean();
-                newCard = new UnitCard(id, cardName, cost, region, price, quantity, cardText, keyword, power, health, isChampion);
+                newCard = new UnitCard(id, cardName, cost, region, price, cardText, keyword, power, health, isChampion);
                 break;
             case 2:
                 System.out.println("Enter speed (1: Slow, 2: Fast, 3: Focus, 4: Burst): ");
                 int speed = scanner.nextInt();
-                newCard = new SpellCard(id, cardName, cost, region, price, quantity, cardText, keyword, speed);
+                newCard = new SpellCard(id, cardName, cost, region, price, cardText, keyword, speed);
                 break;
             case 3:
                 System.out.println("Enter bonus power: ");
                 int bonusPower = scanner.nextInt();
                 System.out.println("Enter bonus health: ");
                 int bonusHealth = scanner.nextInt();
-                newCard = new EquipmentCard(id, cardName, cost, region, price, quantity, cardText, keyword, bonusPower, bonusHealth);
+                newCard = new EquipmentCard(id, cardName, cost, region, price, cardText, keyword, bonusPower, bonusHealth);
                 break;
             default:
                 System.out.println("Invalid card type.");
@@ -172,8 +172,18 @@ public class CardService implements ICardService {
     }
 
     @Override
+    public void loadFromFile() {
+
+    }
+
+    @Override
     public void saveToFile(String filename) {
         cardRepository.saveToFile(filename);
+    }
+
+    @Override
+    public void saveToFile() {
+
     }
 
     public boolean isCardIdExists(String cardId) {

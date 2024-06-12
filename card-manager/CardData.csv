@@ -1,9 +1,1 @@
 cardType,ID,cardName,cost,region,price,quantity,cardText,keyword,power,health,isChampion,speed,bonusPower,bonusHealth
-UnitCard,09DE031,Jarro Lightfeather,1,Demacia,300.00,3,Play: Grant an ally in hand Spirit.,Spirit,0,0,false,,,,
-UnitCard,09DE034,Lux: Illuminated,3,Demacia,3000.00,3,Support: Grant my supported ally Spirit and give me Barrier this round. Level Up: Allies have attacked with or have gained while attacking 20+ total positive keywords.,Spirit\= Support,1,2,true,,,,
-SpellCard,06DE045,Inspiring Light,2,Demacia,100.00,3,Grant allies Spirit.,Slow,,,,1,,,
-EquipmentCard,06DE032,Demacian Steel,1,Demacia,100.00,3,,Equipment,,,,,1,1
-UnitCard,09DE029,Luminosprite,2,Demacia,300.00,3,Support: Give my supported ally all of my positive keywords and their stacks this round.,Support,2,2,false,,,,
-UnitCard,09DE033,Spritelings,1,Demacia\= Ionia,100.00,3,,Spirit\= Spirit,0,0,false,,,,
-UnitCard,09DE034T1,Lux: Illuminated,3,Demacia,0.00,3,Support: Grant my supported ally Spirit and give me Barrier this round. When an ally gains Spirit\= it gains it again.,Champion\= Spirit\= Support,2,3,true,,,,
-SpellCard,07DE005,Form Up!,2,Demacia,100.00,3,Give an ally +2|+2 this round.,Burst,,,,4,,,

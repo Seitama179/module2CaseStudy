@@ -16,7 +16,6 @@ public abstract class Card implements Serializable {
         this.cost = cost;
         this.region = region;
         this.price = price;
-
         this.cardText = cardText;
         this.keyword = keyword;
     }

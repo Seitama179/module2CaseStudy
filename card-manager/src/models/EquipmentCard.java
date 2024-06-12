@@ -3,8 +3,8 @@ package models;
 public class EquipmentCard extends Card {
     private int bonusPower;
     private int bonusHealth;
-    public EquipmentCard(String id, String cardName, int cost, String region, double price, byte quantity, String cardText, String keyword, int bonusPower, int bonusHealth) {
-        super(id, cardName, cost, region, price, quantity, cardText, keyword);
+    public EquipmentCard(String id, String cardName, int cost, String region, double price, String cardText, String keyword, int bonusPower, int bonusHealth) {
+        super(id, cardName, cost, region, price, cardText, keyword);
         this.bonusPower = bonusPower;
         this.bonusHealth = bonusHealth;
     }
@@ -28,7 +28,6 @@ public class EquipmentCard extends Card {
                 + ", Cost: " + getCost()
                 + ", Region: " + getRegion()
                 + ", Price: " + getPrice()
-                + ", Quantity: " + getQuantity()
                 + ", Power: " + getBonusPower()
                 + ", Health: " + getBonusHealth();
     }
